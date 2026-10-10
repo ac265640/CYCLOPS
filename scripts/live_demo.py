@@ -15,7 +15,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--scenario', default='forest_sar',
                     choices=['forest_sar', 'urban_inspection', 'dynamic', 'pillars'])
-    ap.add_argument('--seed', type=int, default=11)
+    ap.add_argument('--seed', type=int, default=108)
     ap.add_argument('--oracle', action='store_true', help='use ground-truth obstacles instead of vision')
     ap.add_argument('--no-ghost', action='store_true', help='hide the baseline ghost drone')
     ap.add_argument('--speed', type=float, default=1.0, help='simulation speed multiplier')
