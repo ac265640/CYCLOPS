@@ -1,0 +1,5 @@
+{
+  "mean_ms": 11.390561427211832,
+  "p95_ms": 23.590260250784922,
+  "note": "single process, Apple M4 CPU, perception (detector+depth+localisation) + tracking + planning, excluding rendering"
+}

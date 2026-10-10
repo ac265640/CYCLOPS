@@ -1,0 +1,231 @@
+[1/160] baseline   forest_sar        seed 102  collision clr -0.01  T   1.8s  (1s)
+[2/160] baseline   forest_sar        seed 103  collision clr -0.00  T   3.5s  (1s)
+[3/160] baseline   forest_sar        seed 107  collision clr -0.01  T   3.0s  (1s)
+[4/160] baseline   forest_sar        seed 106  collision clr -0.00  T   3.6s  (1s)
+[5/160] baseline   forest_sar        seed 100  collision clr -0.00  T   3.5s  (1s)
+[6/160] baseline   forest_sar        seed 104  collision clr -0.01  T   3.9s  (1s)
+[7/160] baseline   forest_sar        seed 105  collision clr -0.01  T   6.8s  (2s)
+[8/160] baseline   forest_sar        seed 108  collision clr -0.00  T   3.5s  (2s)
+[9/160] baseline   forest_sar        seed 101  collision clr -0.01  T   7.7s  (2s)
+[10/160] baseline   urban_inspection  seed 100  collision clr -0.01  T   4.0s  (2s)
+[11/160] baseline   urban_inspection  seed 102  collision clr -0.01  T   2.9s  (2s)
+[12/160] baseline   forest_sar        seed 109  collision clr -0.00  T   3.7s  (2s)
+[13/160] baseline   urban_inspection  seed 103  collision clr -0.00  T   3.4s  (2s)
+[14/160] baseline   urban_inspection  seed 106  collision clr -0.01  T   2.6s  (2s)
+[15/160] baseline   urban_inspection  seed 105  collision clr -0.01  T   3.2s  (2s)
+[16/160] baseline   urban_inspection  seed 107  collision clr -0.00  T   4.0s  (2s)
+[17/160] baseline   urban_inspection  seed 108  collision clr -0.00  T   4.0s  (2s)
+[18/160] baseline   urban_inspection  seed 109  collision clr -0.00  T   3.8s  (2s)
+[19/160] baseline   urban_inspection  seed 104  collision clr -0.00  T   5.4s  (2s)
+[20/160] baseline   dynamic           seed 101  collision clr -0.00  T   1.7s  (2s)
+[21/160] baseline   dynamic           seed 100  collision clr -0.01  T   4.1s  (2s)
+[22/160] baseline   urban_inspection  seed 101  collision clr -0.01  T  10.1s  (2s)
+[23/160] baseline   dynamic           seed 102  collision clr -0.00  T   3.7s  (2s)
+[24/160] baseline   dynamic           seed 103  collision clr -0.01  T   4.0s  (2s)
+[25/160] baseline   dynamic           seed 107  collision clr -0.01  T   3.0s  (2s)
+[26/160] baseline   dynamic           seed 109  collision clr -0.00  T   3.7s  (2s)
+[27/160] baseline   dynamic           seed 108  collision clr -0.00  T   4.9s  (2s)
+[28/160] baseline   pillars           seed 100  collision clr -0.01  T   2.6s  (2s)
+[29/160] baseline   dynamic           seed 106  collision clr -0.01  T   6.4s  (3s)
+[30/160] baseline   pillars           seed 102  collision clr -0.00  T   2.6s  (3s)
+[31/160] baseline   pillars           seed 101  collision clr -0.01  T   2.8s  (3s)
+[32/160] baseline   dynamic           seed 104  collision clr -0.01  T   9.1s  (3s)
+[33/160] baseline   pillars           seed 103  collision clr -0.00  T   2.7s  (3s)
+[34/160] baseline   pillars           seed 105  collision clr -0.01  T   2.6s  (3s)
+[35/160] baseline   pillars           seed 104  collision clr -0.01  T   2.8s  (3s)
+[36/160] baseline   dynamic           seed 105  collision clr -0.01  T  10.5s  (3s)
+[37/160] baseline   pillars           seed 107  collision clr -0.00  T   2.8s  (3s)
+[38/160] baseline   pillars           seed 108  collision clr -0.00  T   2.7s  (3s)
+[39/160] baseline   pillars           seed 106  collision clr -0.01  T   4.1s  (3s)
+[40/160] baseline   pillars           seed 109  collision clr -0.01  T   2.6s  (3s)
+[41/160] apf_vision forest_sar        seed 107  collision clr -0.00  T   3.7s  (13s)
+[42/160] apf_vision forest_sar        seed 101  collision clr -0.01  T   7.3s  (18s)
+[43/160] apf_vision forest_sar        seed 102  collision clr -0.00  T  10.2s  (24s)
+[44/160] apf_vision forest_sar        seed 103  collision clr -0.00  T  14.3s  (29s)
+[45/160] apf_vision forest_sar        seed 105  collision clr -0.00  T  13.2s  (31s)
+[46/160] apf_vision urban_inspection  seed 100  collision clr -0.01  T   5.2s  (34s)
+[47/160] apf_vision forest_sar        seed 106  collision clr -0.00  T  16.9s  (39s)
+[48/160] apf_vision forest_sar        seed 104  success   clr  0.38  T  17.8s  (39s)
+[49/160] apf_vision forest_sar        seed 100  success   clr  0.49  T  18.9s  (42s)
+[50/160] apf_vision urban_inspection  seed 101  success   clr  0.23  T  14.7s  (48s)
+[51/160] apf_vision forest_sar        seed 109  success   clr  0.15  T  16.5s  (51s)
+[52/160] apf_vision forest_sar        seed 108  success   clr  0.10  T  19.1s  (52s)
+[53/160] apf_vision urban_inspection  seed 102  success   clr  0.26  T  17.0s  (53s)
+[54/160] apf_vision urban_inspection  seed 105  collision clr -0.01  T  12.4s  (56s)
+[55/160] apf_vision urban_inspection  seed 104  success   clr  1.05  T  12.9s  (57s)
+[56/160] apf_vision urban_inspection  seed 109  collision clr -0.00  T   6.1s  (61s)
+[57/160] apf_vision dynamic           seed 100  collision clr -0.00  T   5.5s  (62s)
+[58/160] apf_vision dynamic           seed 102  collision clr -0.00  T   3.9s  (63s)
+[59/160] apf_vision urban_inspection  seed 103  success   clr  0.14  T  20.2s  (64s)
+[60/160] apf_vision dynamic           seed 101  collision clr -0.01  T  12.1s  (71s)
+[61/160] apf_vision urban_inspection  seed 107  success   clr  0.97  T  15.3s  (72s)
+[62/160] apf_vision urban_inspection  seed 106  success   clr  0.27  T  21.7s  (73s)
+[63/160] apf_vision dynamic           seed 108  collision clr -0.00  T   3.4s  (79s)
+[64/160] apf_vision dynamic           seed 104  success   clr  0.90  T  13.9s  (80s)
+[65/160] apf_vision dynamic           seed 103  success   clr  0.22  T  15.5s  (81s)
+[66/160] apf_vision urban_inspection  seed 108  success   clr  0.68  T  22.6s  (82s)
+[67/160] apf_vision dynamic           seed 107  collision clr -0.00  T   8.0s  (83s)
+[68/160] apf_vision dynamic           seed 106  success   clr  0.14  T  15.7s  (84s)
+[69/160] apf_vision pillars           seed 100  collision clr -0.01  T   4.1s  (86s)
+[70/160] apf_vision dynamic           seed 105  success   clr  0.11  T  19.3s  (88s)
+[71/160] apf_vision dynamic           seed 109  success   clr  0.72  T  17.8s  (94s)
+[72/160] apf_vision pillars           seed 101  success   clr  0.79  T  15.7s  (101s)
+[73/160] apf_vision pillars           seed 102  success   clr  0.34  T  17.3s  (105s)
+[74/160] apf_vision pillars           seed 103  success   clr  0.47  T  18.7s  (108s)
+[75/160] apf_vision pillars           seed 107  success   clr  0.47  T  16.3s  (110s)
+[76/160] apf_vision pillars           seed 104  success   clr  0.20  T  19.8s  (111s)
+[77/160] apf_vision pillars           seed 106  success   clr  0.22  T  19.7s  (111s)
+[78/160] apf_vision pillars           seed 105  success   clr  0.05  T  23.7s  (116s)
+[79/160] apf_vision pillars           seed 109  collision clr -0.00  T  15.6s  (123s)
+[80/160] apf_vision pillars           seed 108  success   clr  0.19  T  24.4s  (130s)
+[81/160] cyclops    forest_sar        seed 104  success   clr  1.02  T  14.9s  (148s)
+[82/160] cyclops    forest_sar        seed 101  success   clr  0.45  T  31.4s  (183s)
+[83/160] cyclops    forest_sar        seed 105  success   clr  0.51  T  27.6s  (183s)
+[84/160] cyclops    forest_sar        seed 108  success   clr  0.91  T  15.6s  (185s)
+[85/160] cyclops    forest_sar        seed 107  success   clr  0.44  T  26.9s  (191s)
+[86/160] cyclops    forest_sar        seed 106  success   clr  0.08  T  29.7s  (197s)
+[87/160] cyclops    forest_sar        seed 102  success   clr  0.56  T  58.4s  (201s)
+[88/160] cyclops    forest_sar        seed 103  success   clr  0.15  T  39.2s  (203s)
+[89/160] cyclops    urban_inspection  seed 101  success   clr  0.80  T  21.8s  (214s)
+[90/160] cyclops    urban_inspection  seed 100  success   clr  0.80  T  26.0s  (219s)
+[91/160] cyclops    forest_sar        seed 100  timeout   clr  0.31  T  58.7s  (228s)
+[92/160] cyclops    urban_inspection  seed 103  success   clr  0.62  T  19.5s  (229s)
+[93/160] cyclops    urban_inspection  seed 102  collision clr -0.01  T  25.6s  (230s)
+[94/160] cyclops    urban_inspection  seed 104  success   clr  1.10  T  25.5s  (239s)
+[95/160] cyclops    urban_inspection  seed 107  success   clr  0.96  T  15.2s  (243s)
+[96/160] cyclops    forest_sar        seed 109  success   clr  0.65  T  30.1s  (246s)
+[97/160] cyclops    urban_inspection  seed 105  success   clr  0.58  T  34.5s  (251s)
+[98/160] cyclops    urban_inspection  seed 109  success   clr  0.82  T  14.4s  (251s)
+[99/160] cyclops    urban_inspection  seed 108  success   clr  0.94  T  15.4s  (252s)
+[100/160] cyclops    dynamic           seed 103  success   clr  1.25  T  14.5s  (264s)
+[101/160] cyclops    urban_inspection  seed 106  success   clr  0.63  T  30.7s  (266s)
+[102/160] cyclops    dynamic           seed 102  collision clr -0.00  T  17.1s  (268s)
+[103/160] cyclops    dynamic           seed 105  success   clr  0.97  T  14.6s  (271s)
+[104/160] cyclops    dynamic           seed 104  success   clr  0.71  T  14.3s  (271s)
+[105/160] cyclops    dynamic           seed 101  success   clr  0.47  T  27.5s  (274s)
+[106/160] cyclops    dynamic           seed 100  success   clr  0.67  T  35.5s  (279s)
+[107/160] cyclops    dynamic           seed 106  success   clr  0.88  T  20.7s  (280s)
+[108/160] cyclops    dynamic           seed 109  success   clr  0.84  T  16.1s  (287s)
+[109/160] cyclops    dynamic           seed 108  success   clr  0.57  T  15.7s  (288s)
+[110/160] cyclops    pillars           seed 101  collision clr -0.00  T  15.0s  (293s)
+[111/160] cyclops    dynamic           seed 107  success   clr  0.74  T  25.8s  (298s)
+[112/160] cyclops    pillars           seed 100  success   clr  0.89  T  23.0s  (301s)
+[113/160] cyclops    pillars           seed 105  success   clr  0.80  T  14.8s  (307s)
+[114/160] oracle     forest_sar        seed 100  success   clr  0.38  T  14.7s  (314s)
+[115/160] cyclops    pillars           seed 103  success   clr  0.70  T  26.0s  (315s)
+[116/160] oracle     forest_sar        seed 102  success   clr  0.83  T  14.5s  (321s)
+[117/160] cyclops    pillars           seed 102  success   clr  0.49  T  38.2s  (322s)
+[118/160] cyclops    pillars           seed 106  success   clr  0.45  T  25.1s  (323s)
+[119/160] oracle     forest_sar        seed 101  success   clr  0.45  T  35.6s  (325s)
+[120/160] oracle     forest_sar        seed 104  success   clr  0.70  T  14.4s  (328s)
+[121/160] oracle     forest_sar        seed 105  success   clr  0.61  T  16.4s  (329s)
+[122/160] oracle     forest_sar        seed 103  success   clr  0.46  T  21.7s  (330s)
+[123/160] oracle     forest_sar        seed 106  success   clr  0.83  T  14.6s  (331s)
+[124/160] cyclops    pillars           seed 104  success   clr  0.29  T  39.1s  (332s)
+[125/160] cyclops    pillars           seed 108  success   clr  0.56  T  26.5s  (332s)
+[126/160] cyclops    pillars           seed 107  success   clr  0.44  T  31.4s  (332s)
+[127/160] oracle     urban_inspection  seed 101  success   clr  0.88  T  15.0s  (334s)
+[128/160] oracle     forest_sar        seed 108  success   clr  0.55  T  14.9s  (335s)
+[129/160] oracle     urban_inspection  seed 102  success   clr  0.46  T  15.9s  (335s)
+[130/160] oracle     urban_inspection  seed 100  success   clr  0.76  T  24.9s  (335s)
+[131/160] oracle     urban_inspection  seed 103  success   clr  0.88  T  15.0s  (335s)
+[132/160] oracle     forest_sar        seed 109  success   clr  0.90  T  14.6s  (336s)
+[133/160] oracle     urban_inspection  seed 107  success   clr  0.95  T  15.6s  (338s)
+[134/160] oracle     urban_inspection  seed 108  success   clr  0.81  T  15.1s  (338s)
+[135/160] oracle     urban_inspection  seed 109  success   clr  0.79  T  14.4s  (338s)
+[136/160] oracle     urban_inspection  seed 105  success   clr  0.61  T  33.0s  (339s)
+[137/160] cyclops    pillars           seed 109  success   clr  0.61  T  29.7s  (339s)
+[138/160] oracle     forest_sar        seed 107  success   clr  0.48  T  31.1s  (340s)
+[139/160] oracle     urban_inspection  seed 106  success   clr  0.70  T  32.9s  (341s)
+[140/160] oracle     dynamic           seed 101  success   clr  0.71  T  21.8s  (342s)
+[141/160] oracle     dynamic           seed 100  success   clr  0.39  T  23.2s  (343s)
+[142/160] oracle     dynamic           seed 104  success   clr  0.83  T  14.3s  (343s)
+[143/160] oracle     dynamic           seed 105  success   clr  0.84  T  15.1s  (343s)
+[144/160] oracle     dynamic           seed 103  success   clr  1.17  T  23.3s  (343s)
+[145/160] oracle     dynamic           seed 102  success   clr  0.47  T  27.3s  (344s)
+[146/160] oracle     dynamic           seed 106  success   clr  1.03  T  14.6s  (344s)
+[147/160] oracle     dynamic           seed 107  success   clr  0.40  T  14.8s  (345s)
+[148/160] oracle     urban_inspection  seed 104  timeout   clr  0.44  T  58.7s  (345s)
+[149/160] oracle     dynamic           seed 109  success   clr  0.81  T  14.3s  (346s)
+[150/160] oracle     dynamic           seed 108  success   clr  0.92  T  14.5s  (346s)
+[151/160] oracle     pillars           seed 103  success   clr  0.53  T  15.0s  (347s)
+[152/160] oracle     pillars           seed 100  success   clr  0.47  T  21.1s  (348s)
+[153/160] oracle     pillars           seed 105  success   clr  0.86  T  14.8s  (348s)
+[154/160] oracle     pillars           seed 101  success   clr  0.64  T  24.1s  (349s)
+[155/160] oracle     pillars           seed 107  success   clr  1.28  T  15.0s  (349s)
+[156/160] oracle     pillars           seed 109  success   clr  0.77  T  15.2s  (351s)
+[157/160] oracle     pillars           seed 104  success   clr  0.94  T  37.3s  (351s)
+[158/160] oracle     pillars           seed 108  success   clr  0.56  T  22.7s  (351s)
+[159/160] oracle     pillars           seed 106  success   clr  0.68  T  33.1s  (352s)
+[160/160] oracle     pillars           seed 102  success   clr  0.54  T  55.3s  (353s)
+{
+  "baseline": {
+    "runs": 40,
+    "success_rate": 0.0,
+    "collision_rate": 1.0,
+    "timeout_rate": 0.0,
+    "min_clearance_mean": null,
+    "min_clearance_worst": -0.012300831304742188,
+    "mission_time_mean": null,
+    "path_length_mean": null,
+    "rmse_cross_track_mean": null,
+    "rmse_altitude_mean": 0.07584995047079188,
+    "energy_wh_mean": null,
+    "latency_ms_mean": 0.011116262953058792,
+    "latency_ms_p95": 0.02000098485041235,
+    "precision": null,
+    "recall": null
+  },
+  "apf_vision": {
+    "runs": 40,
+    "success_rate": 0.6,
+    "collision_rate": 0.4,
+    "timeout_rate": 0.0,
+    "min_clearance_mean": 0.3975756315375339,
+    "min_clearance_worst": -0.011112024315431568,
+    "mission_time_mean": 18.10666666666667,
+    "path_length_mean": 48.5571307822305,
+    "rmse_cross_track_mean": 3.3853314886501984,
+    "rmse_altitude_mean": 0.05455706539468476,
+    "energy_wh_mean": 1.2373701761006854,
+    "latency_ms_mean": 37.93773701171155,
+    "latency_ms_p95": 74.48856919427271,
+    "precision": 0.506731583403895,
+    "recall": 0.6600794146843634
+  },
+  "cyclops": {
+    "runs": 40,
+    "success_rate": 0.9,
+    "collision_rate": 0.075,
+    "timeout_rate": 0.025,
+    "min_clearance_mean": 0.6766200534759564,
+    "min_clearance_worst": -0.007778850476930499,
+    "mission_time_mean": 25.423055555555553,
+    "path_length_mean": 52.61888889388406,
+    "rmse_cross_track_mean": 3.8702444751040677,
+    "rmse_altitude_mean": 0.04159085116054041,
+    "energy_wh_mean": 1.6564181811496002,
+    "latency_ms_mean": 36.93544113187717,
+    "latency_ms_p95": 62.74491173538081,
+    "precision": 0.6920421727261937,
+    "recall": 0.7699273767605633
+  },
+  "oracle": {
+    "runs": 40,
+    "success_rate": 0.975,
+    "collision_rate": 0.0,
+    "timeout_rate": 0.025,
+    "min_clearance_mean": 0.7142857613287666,
+    "min_clearance_worst": 0.3769818658845038,
+    "mission_time_mean": 20.79064102564103,
+    "path_length_mean": 49.406371781706056,
+    "rmse_cross_track_mean": 4.040998173452034,
+    "rmse_altitude_mean": 0.049652677274511704,
+    "energy_wh_mean": 1.3604763384022271,
+    "latency_ms_mean": 8.409695685124086,
+    "latency_ms_p95": 15.099847406236222,
+    "precision": null,
+    "recall": null
+  }
+}
+figures written to /Users/amit/Desktop/drones_project/scripts/../docs/figures
