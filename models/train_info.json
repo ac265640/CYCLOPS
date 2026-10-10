@@ -1,0 +1,11 @@
+{
+  "n_train": 14000,
+  "n_close": 4000,
+  "finetune": true,
+  "n_boxes": 103299,
+  "epochs": 12,
+  "device": "mps",
+  "train_seconds": 526.2180969715118,
+  "det_params": 225637,
+  "depth_params": 264513
+}

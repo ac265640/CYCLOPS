@@ -1,0 +1,71 @@
+device: mps
+dataset ready: 10000 train frames, 74765 boxes (252 s)
+  detector epoch  1/30  loss 3.1842
+  detector epoch  2/30  loss 2.3494
+  detector epoch  3/30  loss 1.7394
+  detector epoch  4/30  loss 1.4599
+  detector epoch  5/30  loss 1.3162
+  detector epoch  6/30  loss 1.2119
+  detector epoch  7/30  loss 1.1247
+  detector epoch  8/30  loss 1.0664
+  detector epoch  9/30  loss 1.0034
+  detector epoch 10/30  loss 0.9545
+  detector epoch 11/30  loss 0.9124
+  detector epoch 12/30  loss 0.8907
+  detector epoch 13/30  loss 0.8608
+  detector epoch 14/30  loss 0.8349
+  detector epoch 15/30  loss 0.8075
+  detector epoch 16/30  loss 0.7934
+  detector epoch 17/30  loss 0.7768
+  detector epoch 18/30  loss 0.7583
+  detector epoch 19/30  loss 0.7436
+  detector epoch 20/30  loss 0.7238
+  detector epoch 21/30  loss 0.7102
+  detector epoch 22/30  loss 0.6942
+  detector epoch 23/30  loss 0.6827
+  detector epoch 24/30  loss 0.6706
+  detector epoch 25/30  loss 0.6588
+  detector epoch 26/30  loss 0.6466
+  detector epoch 27/30  loss 0.6401
+  detector epoch 28/30  loss 0.6362
+  detector epoch 29/30  loss 0.6300
+  detector epoch 30/30  loss 0.6285
+  depth    epoch  1/30  loss 0.8633
+  depth    epoch  2/30  loss 0.4022
+  depth    epoch  3/30  loss 0.3042
+  depth    epoch  4/30  loss 0.2506
+  depth    epoch  5/30  loss 0.2218
+  depth    epoch  6/30  loss 0.2040
+  depth    epoch  7/30  loss 0.1888
+  depth    epoch  8/30  loss 0.1739
+  depth    epoch  9/30  loss 0.2030
+  depth    epoch 10/30  loss 0.1688
+  depth    epoch 11/30  loss 0.1585
+  depth    epoch 12/30  loss 0.1536
+  depth    epoch 13/30  loss 0.1458
+  depth    epoch 14/30  loss 0.1420
+  depth    epoch 15/30  loss 0.1357
+  depth    epoch 16/30  loss 0.1358
+  depth    epoch 17/30  loss 0.1312
+  depth    epoch 18/30  loss 0.1290
+  depth    epoch 19/30  loss 0.1253
+  depth    epoch 20/30  loss 0.1219
+  depth    epoch 21/30  loss 0.1214
+  depth    epoch 22/30  loss 0.1179
+  depth    epoch 23/30  loss 0.1158
+  depth    epoch 24/30  loss 0.1136
+  depth    epoch 25/30  loss 0.1116
+  depth    epoch 26/30  loss 0.1104
+  depth    epoch 27/30  loss 0.1091
+  depth    epoch 28/30  loss 0.1080
+  depth    epoch 29/30  loss 0.1071
+  depth    epoch 30/30  loss 0.1074
+{
+  "n_train": 10000,
+  "n_boxes": 74765,
+  "epochs": 30,
+  "device": "mps",
+  "train_seconds": 1668.127475976944,
+  "det_params": 225637,
+  "depth_params": 264513
+}
