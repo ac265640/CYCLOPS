@@ -1,0 +1,121 @@
+{
+  "hover_rotor_speed_rad_s": 655.9989547820726,
+  "open_loop_eigenvalues": [
+    [
+      -0.23333333327713032,
+      0.0
+    ],
+    [
+      -0.16666666666666669,
+      0.0
+    ],
+    [
+      -0.16666666666666669,
+      0.0
+    ],
+    [
+      -0.0689655172413793,
+      0.0
+    ],
+    [
+      -0.0689655172413793,
+      0.0
+    ],
+    [
+      -0.03636363636363636,
+      0.0
+    ],
+    [
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0
+    ]
+  ],
+  "controllable": true,
+  "roll/pitch_rate_loop": {
+    "crossover_rad_s": 14.707602558344476,
+    "phase_margin_deg": 71.52235860187673,
+    "gain_margin_db": Infinity
+  },
+  "roll/pitch_attitude_loop": {
+    "crossover_rad_s": 5.962712379075736,
+    "phase_margin_deg": 68.24609202869975,
+    "gain_margin_db": 18.47638722700176
+  },
+  "yaw_rate_loop": {
+    "crossover_rad_s": 5.9080322962312435,
+    "phase_margin_deg": 78.33332355257038,
+    "gain_margin_db": Infinity
+  },
+  "yaw_attitude_loop": {
+    "crossover_rad_s": 2.4397584829901637,
+    "phase_margin_deg": 66.8688121172675,
+    "gain_margin_db": 22.17483911721945
+  },
+  "roll_attitude_gain_unstable_from": 50.62562814070351,
+  "design_closed_loop_poles_roll": [
+    [
+      -14.475712842573111,
+      0.0
+    ],
+    [
+      -11.303659895961673,
+      -9.644772048019265
+    ],
+    [
+      -11.303659895961673,
+      9.644772048019265
+    ],
+    [
+      -0.25030069883684464,
+      0.0
+    ]
+  ],
+  "step_roll": {
+    "rise_time_s": 0.22999999999999998,
+    "overshoot_pct": 0.24518267184543419,
+    "settling_time_5pct_s": 0.32500000000000007,
+    "steady_state_error": 0.00023638309816409464
+  },
+  "step_pitch": {
+    "rise_time_s": 0.22999999999999998,
+    "overshoot_pct": 0.24518267184543419,
+    "settling_time_5pct_s": 0.32500000000000007,
+    "steady_state_error": 0.00023638309816409464
+  },
+  "step_yaw": {
+    "rise_time_s": 0.67,
+    "overshoot_pct": 1.6586240059390578,
+    "settling_time_5pct_s": 1.08,
+    "steady_state_error": 0.0009681820618532289
+  },
+  "step_altitude": {
+    "rise_time_s": 1.3050000000000002,
+    "overshoot_pct": 0.0,
+    "settling_time_5pct_s": 1.855,
+    "steady_state_error": 0.00026190271041048874
+  },
+  "gust": {
+    "max_deviation_m": 0.7355347585636977,
+    "recovered_within_10cm_s": 3.495
+  }
+}
