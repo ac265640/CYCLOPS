@@ -95,7 +95,8 @@ pip install -r requirements.txt
 python scripts/live_demo.py                      # live demo (trained weights are included)
 ```
 
-Live demo keys: `space` pause · `1-4` scenario · `s` new seed · `r` restart · `v` vision ↔ oracle · `b` ghost baseline · `m` manual RC (arrows, `q`/`e` yaw, `z`/`x` altitude) · `h` RTL · `l` land · `+`/`-` speed.
+Everything is clickable in the left sidebar: scenario, perception mode (camera + neural nets, or a perfect "cheat" sensor for comparison), Play/Pause, Restart, New map, the ghost baseline, Fly manually, Return home, Land, Help (explains every panel) and a speed slider. A status banner tells you what the drone is doing in plain English.
+Keyboard shortcuts: `space` pause · `1-4` scenario · `s` new map · `r` restart · `v` perception · `b` ghost · `m` manual (arrows move, `q`/`e` turn, `z`/`x` down/up) · `h` home · `l` land · `?` help.
 
 Pre-recorded runs, as a fallback for the viva: [`docs/media/`](docs/media).
 
