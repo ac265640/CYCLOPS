@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>cyclops_ros</name>
+  <version>1.0.0</version>
+  <description>CYCLOPS: monocular deep-learning obstacle detection and avoidance for PX4 quadrotors (ROS 2 nodes)</description>
+  <maintainer email="amitsinghchauhan1oa@gmail.com">Amit Singh Chauhan</maintainer>
+  <license>MIT</license>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>visualization_msgs</exec_depend>
+  <exec_depend>px4_msgs</exec_depend>
+  <exec_depend>ros_gz_bridge</exec_depend>
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>
