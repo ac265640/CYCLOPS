@@ -5,7 +5,9 @@
 *Deep-learning-based monocular obstacle detection and avoidance for autonomous quadrotor navigation*
 Amit Singh Chauhan (23BAI1450), course BCSE428L *Autonomous Drones*
 
-![CYCLOPS live demo](docs/media/demo_screenshot.png)
+**Website and demo videos:** https://ac265640.github.io/CYCLOPS/  ·  **Project report (PDF):** [docs/report/CYCLOPS_Project_Report.pdf](docs/report/CYCLOPS_Project_Report.pdf)
+
+![CYCLOPS live demo](docs/figures/ui_goal_reached.png)
 
 A quadrotor with **one forward-facing camera** and no LiDAR or stereo detects obstacles with a CNN and estimates their distance with a monocular depth network. It tracks them with an EKF and steers around them in real time. The project builds on
 
@@ -98,7 +100,7 @@ python scripts/live_demo.py                      # live demo (trained weights ar
 Everything is clickable in the left sidebar: scenario, perception mode (camera + neural nets, or a perfect "cheat" sensor for comparison), Play/Pause, Restart, New map, the ghost baseline, Fly manually, Return home, Land, Help (explains every panel) and a speed slider. A status banner tells you what the drone is doing in plain English.
 Keyboard shortcuts: `space` pause · `1-4` scenario · `s` new map · `r` restart · `v` perception · `b` ghost · `m` manual (arrows move, `q`/`e` turn, `z`/`x` down/up) · `h` home · `l` land · `?` help.
 
-Pre-recorded runs, as a fallback for the viva: [`docs/media/`](docs/media).
+Pre-recorded runs, as a fallback for the viva: [`docs/media/`](docs/media) (also playable on the [project website](https://ac265640.github.io/CYCLOPS/#demo)).
 
 ### Reproduce everything
 
@@ -149,8 +151,10 @@ cyclops/                 core library (see table above)
 scripts/                 training, evaluation, benchmark, analyses, live demo
 models/                  trained weights + training logs
 results/                 metrics (JSON / CSV)
-docs/figures/            all plots used in the report
+docs/figures/            all plots and screenshots used in the report
 docs/media/              recorded demo videos
+docs/report/             project implementation report (HTML source + PDF)
+docs/index.html          project website (GitHub Pages)
 ros2_ws/                 ROS 2 package
 tests/                   pytest suite
 ```
