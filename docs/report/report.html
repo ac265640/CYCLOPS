@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CYCLOPS - Project Implementation Report</title>
+<style>
+  @page { size: A4; margin: 18mm 17mm 18mm 17mm; }
+  body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 10.6pt; line-height: 1.45;
+         color: #111; margin: 0; }
+  h1 { font-size: 21pt; text-align: center; margin: 0 0 4mm; line-height: 1.2; }
+  h2 { font-size: 14pt; margin: 7mm 0 2mm; padding-bottom: 1mm; border-bottom: 1.2px solid #222;
+       page-break-after: avoid; }
+  h3 { font-size: 11.6pt; margin: 4.5mm 0 1.5mm; page-break-after: avoid; }
+  p { margin: 0 0 2.4mm; text-align: justify; }
+  a { color: #0645ad; text-decoration: none; }
+  ul, ol { margin: 0 0 2.4mm; padding-left: 6mm; }
+  li { margin: 0.6mm 0; }
+  .center { text-align: center; }
+  .title-block { margin-top: 2mm; }
+  .subtitle { text-align: center; font-size: 13pt; margin-bottom: 5mm; }
+  .meta { text-align: center; font-size: 11pt; line-height: 1.7; margin-bottom: 5mm; }
+  .linkbox { border: 1px solid #999; border-radius: 3px; padding: 3mm 4mm; margin: 4mm 0; background: #f7f7f7; }
+  .linkbox table td { border: none; padding: 0.6mm 2mm 0.6mm 0; }
+  figure { margin: 3mm 0 4mm; page-break-inside: avoid; text-align: center; }
+  figure img { max-width: 100%; border: 0.5px solid #bbb; }
+  figcaption { font-size: 9pt; color: #333; margin-top: 1.5mm; text-align: center; }
+  .two { display: flex; gap: 4mm; }
+  .two figure { flex: 1; }
+  table.t { border-collapse: collapse; width: 100%; font-size: 9.6pt; margin: 2mm 0 4mm; page-break-inside: avoid; }
+  table.t th, table.t td { border: 0.6px solid #888; padding: 1.2mm 2mm; vertical-align: top; }
+  table.t th { background: #e8e8e8; text-align: left; }
+  table.t td.n, table.t th.n { text-align: right; white-space: nowrap; }
+  table.t tr.hl td { font-weight: bold; background: #eef5ff; }
+  code { font-family: Menlo, Consolas, monospace; font-size: 9pt; background: #f2f2f2; padding: 0 1mm; }
+  pre { font-family: Menlo, Consolas, monospace; font-size: 8.6pt; background: #f2f2f2; padding: 2.5mm 3mm;
+        border: 0.6px solid #ccc; white-space: pre-wrap; page-break-inside: avoid; }
+  .note { border-left: 3px solid #b8860b; background: #fffbea; padding: 2mm 3mm; margin: 2mm 0 3mm; font-size: 10pt; }
+  .eq { text-align: center; font-family: "Times New Roman", serif; font-size: 11.5pt; margin: 2mm 0; }
+  .pb { page-break-before: always; }
+  .refs li { margin: 1mm 0; font-size: 9.8pt; }
+</style>
+</head>
+<body>
+
+<div class="title-block">
+<h1>CYCLOPS: Deep Learning Based Monocular Vision Obstacle Detection and Avoidance for Autonomous Quadrotor UAV Navigation</h1>
+<div class="subtitle">Project Implementation Report</div>
+<div class="meta">
+  <b>Name:</b> Amit Singh Chauhan<br>
+  <b>Registration No.:</b> 23BAI1450<br>
+  <b>Course:</b> BCSE428L &ndash; Autonomous Drones
+</div>
+</div>
+
+<h2>1. Project Links</h2>
+<div class="linkbox"><table>
+  <tr><td><b>Source code (GitHub)</b></td><td><a href="https://github.com/ac265640/CYCLOPS">https://github.com/ac265640/CYCLOPS</a></td></tr>
+  <tr><td><b>Project website (live)</b></td><td><a href="https://ac265640.github.io/CYCLOPS/">https://ac265640.github.io/CYCLOPS/</a></td></tr>
+  <tr><td><b>Demo videos</b></td><td><a href="https://ac265640.github.io/CYCLOPS/#demo">https://ac265640.github.io/CYCLOPS/#demo</a></td></tr>
+  <tr><td><b>This report (PDF)</b></td><td><a href="https://ac265640.github.io/CYCLOPS/report/CYCLOPS_Project_Report.pdf">https://ac265640.github.io/CYCLOPS/report/CYCLOPS_Project_Report.pdf</a></td></tr>
+  <tr><td><b>Raw results (CSV / JSON)</b></td><td><a href="https://github.com/ac265640/CYCLOPS/tree/main/results">https://github.com/ac265640/CYCLOPS/tree/main/results</a></td></tr>
+  <tr><td><b>Syllabus mapping</b></td><td><a href="https://github.com/ac265640/CYCLOPS/blob/main/docs/curriculum_mapping.md">https://github.com/ac265640/CYCLOPS/blob/main/docs/curriculum_mapping.md</a></td></tr>
+  <tr><td><b>ROS 2 package</b></td><td><a href="https://github.com/ac265640/CYCLOPS/tree/main/ros2_ws/src/cyclops_ros">https://github.com/ac265640/CYCLOPS/tree/main/ros2_ws/src/cyclops_ros</a></td></tr>
+  <tr><td><b>Reference paper (IEEE)</b></td><td><a href="https://doi.org/10.1109/ICUAS48674.2020.9213901">https://doi.org/10.1109/ICUAS48674.2020.9213901</a></td></tr>
+</table></div>
+
+<h2>2. Abstract</h2>
+<p>This report describes the implementation of <b>CYCLOPS</b> (<i>Camera-only, Yaw-aware Collision avoidance with
+Learned Obstacle Perception for Small UAVs</i>), the project proposed in the initial report. A simulated quadrotor
+carries one forward-facing camera, with no LiDAR and no stereo. A lightweight convolutional detector finds
+obstacles in each frame, and a monocular depth network estimates their distance. An extended Kalman filter tracks
+every obstacle, using the reference paper's range-and-bearing (Mode&nbsp;1) or bearing-only (Mode&nbsp;2)
+localisation. A field-of-view-aware potential-field planner then steers the vehicle through a PX4-style flight
+controller acting on a full 6-DOF quadrotor model.</p>
+<p>Across 160 simulated missions on unseen maps, CYCLOPS reached the goal in <b>90&nbsp;%</b> of flights in every
+scenario. A straight-line baseline managed 0&nbsp;%, a classic potential field using the same perception 60&nbsp;%, and
+perfect perception 97.5&nbsp;%. The detector reaches 0.93 precision and 0.76 recall, the learned range error is
+17&nbsp;%, and one camera frame is turned into a flight command in 11&nbsp;ms on a laptop CPU. The project also covers
+the course syllabus directly: airframe and battery modelling, flight modes and preflight checks, a stability analysis,
+and an endurance study.</p>
+
+<h2>3. Reference Paper and Objective (recap)</h2>
+<p>The project builds on Z. Zhang, Y. Zhang and Y. Cao, <i>"Monocular Vision-Based Obstacle Avoidance Trajectory
+Planning for Unmanned Aerial Vehicles"</i>, ICUAS 2020, pp. 627&ndash;632. The paper's key idea is that
+avoidance must be planned around what a single camera can actually measure. A monocular camera gives direction
+precisely but distance only indirectly. The paper therefore defines a range-based localisation mode and an
+angle-based one, and studies when the latter is observable.</p>
+<p>The objective set in the initial report was a software pipeline with these parts:</p>
+<ol>
+  <li>detect obstacles from one camera with a deep network;</li>
+  <li>estimate their range and bearing;</li>
+  <li>track obstacles, including moving ones;</li>
+  <li>plan a collision-free path under speed, yaw-rate and clearance constraints;</li>
+  <li>evaluate detection accuracy, tracking error, clearance, success rate and latency against a baseline planner.</li>
+</ol>
+<p>All five parts are implemented and evaluated below.</p>
+
+<h2>4. System Overview</h2>
+<figure><img src="../figures/architecture.png" style="width:100%">
+<figcaption>Figure 1. CYCLOPS architecture. Top row: perception and planning at 15 Hz. Bottom row: vehicle, sensors and control at 200 Hz.</figcaption></figure>
+<p>The system is written in Python (NumPy, SciPy, PyTorch, Matplotlib). It is organised as independent modules that
+mirror the ROS&nbsp;2 nodes proposed in the initial report:</p>
+<ul>
+  <li>a camera producing images;</li>
+  <li>a perception node producing detections;</li>
+  <li>a tracker producing obstacle estimates;</li>
+  <li>a planning node producing velocity and yaw setpoints;</li>
+  <li>a PX4-style commander and flight controller producing motor commands.</li>
+</ul>
+<p>Every component was built from scratch for this project:</p>
+<ul>
+  <li>the quadrotor simulator and camera renderer;</li>
+  <li>the synthetic dataset;</li>
+  <li>both neural networks;</li>
+  <li>the tracker, the planners and the live dashboard.</li>
+</ul>
+
+<figure><img src="../figures/ui_forest_sar.png" style="width:100%">
+<figcaption>Figure 2. The live demo dashboard during a forest search-and-rescue mission. The camera view shows CNN
+detections with estimated distances. The map compares real obstacles (grey) with the camera's estimates (cyan), and
+shows the baseline drone crashing (red cross).</figcaption></figure>
+
+<h2>5. Implementation</h2>
+
+<h3>5.1 Quadrotor model (Syllabus Modules 1 and 4)</h3>
+<p>The vehicle is a full rigid-body model, the Python equivalent of a Simulink plant block. Each propeller produces
+thrust <i>T<sub>i</sub> = k<sub>f</sub>&omega;<sub>i</sub><sup>2</sup></i> and drag torque
+<i>Q<sub>i</sub> = k<sub>m</sub>T<sub>i</sub></i>. Rotor speed follows the ESC command through a first-order lag.</p>
+<div class="eq">m&nbsp;dv/dt = R [0, 0, &Sigma;T<sub>i</sub>]<sup>T</sup> &minus; m g e<sub>z</sub> + F<sub>drag</sub>,
+&nbsp;&nbsp;&nbsp; J&nbsp;d&omega;/dt = &tau; &minus; &omega; &times; J&omega;,
+&nbsp;&nbsp;&nbsp; d&omega;<sub>i</sub>/dt = (&omega;<sub>i,cmd</sub> &minus; &omega;<sub>i</sub>) / &tau;<sub>m</sub></div>
+<p>The LiPo battery model includes an open-circuit-voltage curve, internal-resistance voltage sag and coulomb
+counting. Motor speed is limited by the present pack voltage, so the drone loses thrust as the battery drains. The IMU,
+GPS and barometer have realistic noise and bias, and a Kalman filter fuses them into a position and velocity estimate.</p>
+<table class="t">
+  <tr><th>Parameter</th><th>Value</th><th>Parameter</th><th>Value</th></tr>
+  <tr><td>Mass (incl. battery)</td><td>1.5 kg</td><td>Airframe / arm length</td><td>Quad-X / 0.25 m</td></tr>
+  <tr><td>Inertia (Ixx, Iyy, Izz)</td><td>0.029, 0.029, 0.055 kg&middot;m&sup2;</td><td>Propellers</td><td>10 inch, k<sub>f</sub> = 8.55&times;10<sup>-6</sup></td></tr>
+  <tr><td>Motor/ESC time constant</td><td>30 ms</td><td>Thrust-to-weight</td><td>2.8</td></tr>
+  <tr><td>Battery</td><td>4S LiPo 5000 mAh, 20 m&Omega;</td><td>Sensors</td><td>IMU 200 Hz, GPS 10 Hz, baro</td></tr>
+  <tr><td>Camera</td><td>160&times;120 px, 90&deg; HFOV, 15 Hz</td><td>Physics / control rate</td><td>200 Hz</td></tr>
+</table>
+
+<h3>5.2 Flight controller and commander (Syllabus Modules 2 and 3)</h3>
+<p>The controller follows the PX4 multicopter cascade:</p>
+<ul>
+  <li>position P;</li>
+  <li>velocity PID;</li>
+  <li>thrust vector and desired attitude;</li>
+  <li>attitude P;</li>
+  <li>body-rate PID;</li>
+  <li>mixer with saturation handling (yaw authority is given up first).</li>
+</ul>
+<p>The attitude error uses PX4's reduced-attitude method, which gives tilt priority over yaw. An early version with a
+plain geometric attitude error lost velocity control during fast heading changes, and this method fixed it.</p>
+<p>A commander implements arming, a preflight checklist and flight modes. The checklist covers battery voltage and
+charge, IMU health, level attitude, GPS fix, estimator convergence, thrust-to-weight and camera/perception readiness.
+The flight modes follow PX4 naming:</p>
+<ul>
+  <li><b>MANUAL</b> (stabilise), <b>ALTCTL</b> (altitude hold) and <b>POSCTL</b> (GPS position mode), all flown with
+  an RC-stick input model;</li>
+  <li><b>TAKEOFF</b>;</li>
+  <li><b>MISSION</b>, the intelligent obstacle-avoidance mode;</li>
+  <li><b>RTL</b> and <b>LAND</b>.</li>
+</ul>
+<p>A low-battery failsafe triggers RTL automatically.</p>
+
+<h3>5.3 Monocular camera and synthetic training data (Syllabus Module 7)</h3>
+<p>The onboard camera is a vectorised ray-casting renderer (pinhole model) with lighting, fog, textures and sensor
+noise. Alongside the RGB image it outputs exact depth and an instance mask, so every training image is labelled
+automatically: no manual annotation was needed. The dataset was built in two parts:</p>
+<ul>
+  <li><b>Main set:</b> 10,000 frames (74,765 boxes) rendered from random poses in random worlds, with randomised sun,
+  fog, exposure and colour (domain randomisation).</li>
+  <li><b>Close-range set:</b> 4,000 extra frames, added after the first model over-estimated short ranges.</li>
+</ul>
+<div class="two">
+  <figure><img src="../figures/fpv_forest_sar.png"><figcaption>Figure 3a. Onboard view in the forest: detections coloured by distance.</figcaption></figure>
+  <figure><img src="../figures/fpv_urban_inspection.png"><figcaption>Figure 3b. Urban scene: wide buildings are split into ~1 m columns.</figcaption></figure>
+</div>
+
+<h3>5.4 Deep perception networks</h3>
+<table class="t">
+  <tr><th>Network</th><th>Design</th><th class="n">Parameters</th><th class="n">CPU time</th></tr>
+  <tr><td>Obstacle detector</td><td>CenterNet-style, anchor-free: depthwise-separable encoder with a feature-pyramid
+  decoder, and heat-map, box-size and offset heads at stride 4. Trained with focal loss.</td><td class="n">225,637</td><td class="n">1.4 ms</td></tr>
+  <tr><td>MonoDepthNet</td><td>U-Net with the same encoder, regressing bounded metric log-depth. Loss: L1 +
+  scale-invariant + gradient matching.</td><td class="n">264,513</td><td class="n">2.0 ms</td></tr>
+</table>
+<p>Training ran on the laptop GPU (Apple MPS) in two stages: 30 epochs on the main set, then a 12-epoch fine-tune
+with the close-range examples. Augmentation included brightness/contrast changes and horizontal flips. Both networks
+are small enough for a Raspberry Pi or Jetson-class companion computer.</p>
+
+<h3>5.5 Monocular localisation: Mode 1 and Mode 2</h3>
+<p><b>Bearing.</b> For each detection, the azimuth and elevation follow exactly from the box centre and the camera
+intrinsics.</p>
+<p><b>Range.</b> Three monocular range cues are computed, echoing the paper's localisation modes:</p>
+<ol>
+  <li>the learned depth network, sampled inside the box;</li>
+  <li>flat-ground contact geometry, using the box's bottom row with the known altitude and attitude;</li>
+  <li>a known-size heuristic, <i>r = f&middot;W / w<sub>px</sub></i>.</li>
+</ol>
+<p><b>Confidence.</b> A range confidence is computed as the fraction of box pixels whose predicted depth agrees with
+the estimate. The tracker then uses one of two update modes:</p>
+<ul>
+  <li><b>Mode&nbsp;1 (range + bearing)</b> when the range is reliable;</li>
+  <li><b>Mode&nbsp;2 (bearing only)</b> otherwise. In Mode 2, the obstacle's position becomes observable only through
+  the drone's own motion (parallax), exactly as analysed in the reference paper.</li>
+</ul>
+<p><b>Wide obstacles.</b> Obstacles wider than 2&nbsp;m, such as buildings, are split into roughly 1&nbsp;m image
+columns, each with its own learned depth (the "stixel" idea). The planner then sees their real outline and corners.</p>
+
+<h3>5.6 Multi-obstacle tracking</h3>
+<p>Each obstacle is tracked by an extended Kalman filter in world coordinates, with a constant-velocity model and the
+measurement vector [azimuth, elevation, range]. Each frame goes through these steps:</p>
+<ol>
+  <li>Detections are associated to tracks with the Hungarian algorithm, using Mahalanobis gating plus a Euclidean
+  fallback.</li>
+  <li>Duplicate tracks are merged, and each obstacle's radius is estimated robustly as the median of its measurements.</li>
+  <li>Tracks are kept for 4&nbsp;s after leaving the field of view, so obstacles beside the drone are remembered.</li>
+  <li>Velocity is mean-reverting: estimated motion is trusted only while the obstacle is being observed.</li>
+</ol>
+<p>Moving obstacles are extrapolated 1.5&ndash;2&nbsp;s ahead by the planner. Every obstacle is inflated by its
+estimated position uncertainty, so the avoidance is planned around what the camera really knows.</p>
+
+<h3>5.7 APF-rollout planner</h3>
+<p>The proposal named artificial-potential-field (APF) and vector-field-histogram (VFH) style planners. A classic APF
+was implemented first, but it reacts only to the current force. With a forward camera, a 0.4&nbsp;s velocity response
+and noisy range, it oscillated between obstacles and drifted sideways into space the camera had never seen.</p>
+<p>The final <b>APF-rollout</b> planner fixes this by testing candidate moves before committing to one:</p>
+<ol>
+  <li>Generate about 40 candidate velocities: 13 headings within &plusmn;25&deg; of the camera axis, times 3 speeds,
+  plus hover.</li>
+  <li>Predict 2&nbsp;s of motion for each candidate, including the controller's lag and the obstacles' predicted
+  motion.</li>
+  <li>Reject any candidate whose predicted clearance drops below 0.4&nbsp;m (a stopping-distance constraint).</li>
+  <li>Score the rest with goal progress, the APF repulsive potential along the path, heading change, speed and
+  smoothness, and pick the best.</li>
+  <li>Enforce the speed limit (4&nbsp;m/s), acceleration limit (6&nbsp;m/s&sup2;) and yaw-rate limit (90&deg;/s).</li>
+</ol>
+<p>Two rules handle dead ends:</p>
+<ul>
+  <li>If every move is blocked, the drone hovers and yaws to look for a gap.</li>
+  <li>If a tracked <i>moving</i> obstacle is closing in, an evasive move in any direction is allowed.</li>
+</ul>
+<p>Because candidates stay inside the field of view, <b>the drone never flies into space it has not looked at</b>.
+This is the monocular limitation designed into the planner.</p>
+
+<h3>5.8 Live demo dashboard</h3>
+<p>The dashboard runs the complete loop in real time, at about 16 frames per second on a laptop. It shows:</p>
+<ul>
+  <li>the onboard FPV view with detections and a goggle-style OSD (artificial horizon, flight-path marker, battery,
+  altitude, speed);</li>
+  <li>the depth-network output;</li>
+  <li>a bird's-eye map of real versus estimated obstacles, the candidate paths and a "ghost" baseline drone flying the
+  same route;</li>
+  <li>battery and motor telemetry, mission metrics and the flight-controller log.</li>
+</ul>
+<p>Clickable controls select the scenario and perception mode, pause and restart, generate a new map, switch to manual
+RC flight, return home and land. A Help overlay explains every panel.</p>
+<div class="two">
+  <figure><img src="../figures/ui_goal_reached.png"><figcaption>Figure 4a. Mission complete: goal reached in 16.9 s,
+  closest approach 0.91 m; the baseline crashed after 4.8 s.</figcaption></figure>
+  <figure><img src="../figures/ui_help.png"><figcaption>Figure 4b. Built-in Help overlay for viewers and examiners.</figcaption></figure>
+</div>
+
+<h3>5.9 ROS 2 / PX4 integration</h3>
+<p>A ROS&nbsp;2 package (<code>cyclops_ros</code>) wraps the same perception, tracker and planner code in two nodes:</p>
+<ul>
+  <li>a <b>perception node</b>: camera image and PX4 odometry in; tracked obstacles and RViz markers out;</li>
+  <li>a <b>planner node</b>: obstacles and odometry in; PX4 offboard velocity setpoints, arming and mode commands out.</li>
+</ul>
+<p>The package also handles NED/FRD frame conversion and includes a launch file for the Gazebo
+<code>x500_mono_cam</code> airframe.</p>
+<div class="note">The ROS&nbsp;2 nodes have not yet been run against a live PX4 SITL: the development machine
+(macOS) had no ROS&nbsp;2 installation, and only the frame conversions were unit-tested. The full evaluation in this
+report uses the project's own simulator. Running the nodes in PX4/Gazebo, after fine-tuning the detector on Gazebo
+images, is the first item of future work.</div>
+
+<h2>6. Experimental Setup and Metrics</h2>
+<p>Four scenarios represent the application areas of Syllabus Module 6. Each is a 40&nbsp;m mission at 2&nbsp;m
+altitude:</p>
+<ul>
+  <li><b>forest search-and-rescue</b>: about 50 trees, several on the direct path;</li>
+  <li><b>urban inspection</b>: buildings and poles;</li>
+  <li><b>dynamic</b>: spheres crossing the path at 0.6&ndash;1.4&nbsp;m/s;</li>
+  <li><b>pillar slalom</b>.</li>
+</ul>
+<p>Four methods were compared on 10 maps per scenario. The maps were never used during development, giving 160
+missions in total:</p>
+<ol>
+  <li>the straight-line baseline from the proposal;</li>
+  <li>a classic APF with our vision pipeline;</li>
+  <li><b>CYCLOPS</b>;</li>
+  <li>CYCLOPS with perfect ("oracle") obstacle knowledge, as an upper bound.</li>
+</ol>
+<p>A mission succeeds if the drone reaches within 1&nbsp;m of the goal without touching an obstacle within 60&nbsp;s.
+The metrics are those listed in Section 8.6 of the initial report:</p>
+<ul>
+  <li>detection precision and recall;</li>
+  <li>tracking error (cross-track and altitude RMSE);</li>
+  <li>minimum clearance;</li>
+  <li>avoidance success rate;</li>
+  <li>perception-to-command latency.</li>
+</ul>
+
+<h2>7. Results</h2>
+<h3>7.1 Perception (1,000 held-out frames)</h3>
+<table class="t">
+  <tr><th>Metric</th><th class="n">All obstacles (&le; 30 m)</th><th class="n">Near obstacles (&le; 15 m)</th></tr>
+  <tr><td>Detection precision / recall (IoU 0.5)</td><td class="n">0.93 / 0.76</td><td class="n">0.92 / 0.86</td></tr>
+  <tr><td>F1 score / AP@0.5</td><td class="n">0.84 / 0.76</td><td class="n">0.89 / 0.87</td></tr>
+  <tr><td>Depth map: AbsRel / RMSE / &delta;&lt;1.25</td><td class="n" colspan="2">0.088 / 1.56 m / 0.92</td></tr>
+</table>
+<table class="t">
+  <tr><th>Range cue (relative error)</th><th class="n">0&ndash;5 m</th><th class="n">5&ndash;10 m</th><th class="n">10&ndash;15 m</th><th class="n">15&ndash;20 m</th><th class="n">20&ndash;30 m</th><th class="n">Overall</th></tr>
+  <tr class="hl"><td>Learned depth network (Mode 1)</td><td class="n">22.7 %</td><td class="n">15.5 %</td><td class="n">15.3 %</td><td class="n">18.5 %</td><td class="n">17.3 %</td><td class="n">17.2 %</td></tr>
+  <tr><td>Flat-ground contact geometry</td><td class="n">87.6 %</td><td class="n">53.3 %</td><td class="n">21.0 %</td><td class="n">24.1 %</td><td class="n">16.7 %</td><td class="n">35.2 %</td></tr>
+  <tr><td>Known-size heuristic</td><td class="n">54.3 %</td><td class="n">45.3 %</td><td class="n">44.6 %</td><td class="n">46.2 %</td><td class="n">48.9 %</td><td class="n">47.3 %</td></tr>
+</table>
+<p>The learned depth is the only cue that stays accurate at close range, where it matters most. The ground-contact
+cue fails up close because the bottom of a nearby obstacle leaves the image.</p>
+<figure><img src="../figures/perception_examples.png" style="width:96%">
+<figcaption>Figure 5. Validation examples. Row 1: camera image with detections. Row 2: ground-truth depth. Row 3: depth
+predicted from the single image.</figcaption></figure>
+<figure><img src="../figures/perception_eval.png" style="width:86%">
+<figcaption>Figure 6. Detector precision-recall curve (left) and range error of the three monocular cues against
+distance (right).</figcaption></figure>
+
+<h3>7.2 Obstacle-avoidance benchmark (160 missions)</h3>
+<table class="t">
+  <tr><th>Method</th><th class="n">Success</th><th class="n">Collision</th><th class="n">Timeout</th><th class="n">Mean min. clearance</th><th class="n">Mission time</th><th class="n">Energy</th></tr>
+  <tr><td>Baseline (straight line, no avoidance)</td><td class="n">0 %</td><td class="n">100 %</td><td class="n">0 %</td><td class="n">&ndash;</td><td class="n">&ndash;</td><td class="n">&ndash;</td></tr>
+  <tr><td>Classic APF + our vision</td><td class="n">60 %</td><td class="n">40 %</td><td class="n">0 %</td><td class="n">0.40 m</td><td class="n">18.1 s</td><td class="n">1.24 Wh</td></tr>
+  <tr class="hl"><td>CYCLOPS (APF-rollout + vision)</td><td class="n">90 %</td><td class="n">7.5 %</td><td class="n">2.5 %</td><td class="n">0.68 m</td><td class="n">25.4 s</td><td class="n">1.66 Wh</td></tr>
+  <tr><td>Oracle perception (upper bound)</td><td class="n">97.5 %</td><td class="n">0 %</td><td class="n">2.5 %</td><td class="n">0.71 m</td><td class="n">20.8 s</td><td class="n">1.36 Wh</td></tr>
+</table>
+<table class="t">
+  <tr><th>Success rate per scenario</th><th class="n">Forest SAR</th><th class="n">Urban</th><th class="n">Dynamic</th><th class="n">Pillars</th></tr>
+  <tr><td>Baseline</td><td class="n">0 %</td><td class="n">0 %</td><td class="n">0 %</td><td class="n">0 %</td></tr>
+  <tr><td>Classic APF + vision</td><td class="n">40 %</td><td class="n">70 %</td><td class="n">50 %</td><td class="n">80 %</td></tr>
+  <tr class="hl"><td>CYCLOPS</td><td class="n">90 %</td><td class="n">90 %</td><td class="n">90 %</td><td class="n">90 %</td></tr>
+  <tr><td>Oracle perception</td><td class="n">100 %</td><td class="n">90 %</td><td class="n">100 %</td><td class="n">100 %</td></tr>
+</table>
+<p>The gap between CYCLOPS and the oracle is the cost of seeing with one camera: only 7.5 percentage points. The gap
+between CYCLOPS and the classic APF, which uses identical perception, is the benefit of the rollout planner:
+30 points. CYCLOPS takes longer missions (25&nbsp;s against 21&nbsp;s for the oracle) because it slows down and re-plans
+when distance estimates are uncertain, a deliberate trade of speed for safety.</p>
+<p>Altitude was held to 4&nbsp;cm RMSE. The cross-track deviation from the straight line (3.9&nbsp;m) reflects the
+detours needed around obstacles, not tracking error.</p>
+<figure><img src="../figures/benchmark.png" style="width:100%">
+<figcaption>Figure 7. Success rate per scenario, minimum clearance distribution (below 0 = collision), and mission time.</figcaption></figure>
+<figure><img src="../figures/benchmark_trajectories.png" style="width:96%">
+<figcaption>Figure 8. Paths flown by each method on the same map in each scenario (grey = obstacles, pink = moving obstacles).</figcaption></figure>
+
+<h3>7.3 Real-time performance</h3>
+<p>Network inference takes 3.4&nbsp;ms per frame on the CPU (detector 1.4&nbsp;ms + depth 2.0&nbsp;ms). The complete
+chain from camera frame to velocity command averages <b>11.4&nbsp;ms</b>, with a 95th percentile of 23.6&nbsp;ms. This
+covers perception, localisation, tracking and planning, and is well inside the 66&nbsp;ms budget of a 15&nbsp;Hz camera.</p>
+
+<h2>8. Stability and Control Analysis (Syllabus Module 5)</h2>
+<p><b>Open loop.</b> Linearising the 6-DOF model at hover gives six eigenvalues at exactly zero, with the others only
+slightly negative (from drag). The bare airframe is therefore <i>neutrally</i> stable: there is no natural restoring
+moment in roll, pitch or yaw. All static and dynamic stability must come from the feedback controller.</p>
+<p><b>Closed loop.</b> The full rank of the controllability matrix confirms the four rotors can control all 12 states.
+The tables and figures below give the closed-loop results.</p>
+<table class="t">
+  <tr><th>Axis / test</th><th>Result</th></tr>
+  <tr><td>Roll (lateral) and pitch (longitudinal) 10&deg; step</td><td>rise time 0.23 s, overshoot 0.2 %, 5 % settling 0.33 s</td></tr>
+  <tr><td>Yaw (directional) 45&deg; step</td><td>rise time 0.67 s, overshoot 1.7 %, settling 1.08 s</td></tr>
+  <tr><td>Altitude +1 m step</td><td>rise time 1.31 s, no overshoot, settling 1.86 s</td></tr>
+  <tr><td>Gust: 6 N horizontal push for 0.5 s</td><td>peak deviation 0.74 m, back within 10 cm after 3.5 s</td></tr>
+  <tr><td>Roll rate loop / attitude loop</td><td>phase margin 72&deg; / 68&deg;, gain margin &infin; / 18.5 dB, crossover 14.7 / 6.0 rad/s</td></tr>
+  <tr><td>Yaw rate loop / attitude loop</td><td>phase margin 78&deg; / 67&deg;, gain margin &infin; / 22.2 dB</td></tr>
+  <tr><td>Stability boundary</td><td>roll loop unstable only for attitude gain &gt; 50.6 (design value 6: 8.4&times; margin)</td></tr>
+</table>
+<figure><img src="../figures/stability_steps.png" style="width:100%">
+<figcaption>Figure 9. Closed-loop responses on the nonlinear model: roll, pitch, yaw, altitude and gust rejection.</figcaption></figure>
+<div class="two">
+  <figure><img src="../figures/stability_bode.png"><figcaption>Figure 10a. Bode plots of the rate and attitude loops.</figcaption></figure>
+  <figure><img src="../figures/stability_root_locus.png"><figcaption>Figure 10b. Closed-loop roll poles as the attitude gain varies from 0.5 to 200.</figcaption></figure>
+</div>
+
+<h2>9. Endurance Study (Syllabus Modules 1 and 7)</h2>
+<p>The 10-inch propellers give a disc loading of 72.6&nbsp;N/m&sup2;. Hover power is 80&nbsp;W in ideal momentum theory,
+178&nbsp;W with a figure of merit of 0.65 and losses, and 214&nbsp;W measured on the simulator.</p>
+<p>Forward-flight momentum theory, with Glauert's induced velocity and parasite drag, shows the classic "bucket"
+curve:</p>
+<ul>
+  <li><b>best endurance</b> at 6.8&nbsp;m/s: 23.5&nbsp;min, compared with 20&nbsp;min in hover;</li>
+  <li><b>best range</b> at 11.3&nbsp;m/s: 12.8&nbsp;km on 59&nbsp;Wh of usable energy.</li>
+</ul>
+<p>Bigger batteries show diminishing returns: doubling capacity from 5 to 10&nbsp;Ah raises hover time by only about
+33&nbsp;%, because the extra cells must also be lifted.</p>
+<figure><img src="../figures/endurance.png" style="width:100%">
+<figcaption>Figure 11. Power required against speed, endurance and range against speed, and hover time against battery capacity.</figcaption></figure>
+
+<h2>10. Mapping to the BCSE428L Syllabus</h2>
+<table class="t">
+  <tr><th style="width:32%">Module</th><th>Where it appears in CYCLOPS</th></tr>
+  <tr><td>1 &ndash; Introduction (types, airframe, batteries, motors, ESC, propellers)</td><td>Quad-X airframe, propeller thrust/torque model, motor/ESC lag, LiPo battery with voltage sag (Sec. 5.1, 9)</td></tr>
+  <tr><td>2 &ndash; Design fundamentals (flight controllers, RC, FPV, telemetry)</td><td>PX4-style cascaded flight controller, RC stick model with manual flight, FPV view with OSD, telemetry panel (Sec. 5.2, 5.8)</td></tr>
+  <tr><td>3 &ndash; Drone basics (preflight, flight modes, roll/pitch/yaw, GPS autopilot, intelligent modes)</td><td>Preflight checklist, MANUAL/ALTCTL/POSCTL/TAKEOFF/MISSION/RTL/LAND, low-battery failsafe (Sec. 5.2)</td></tr>
+  <tr><td>4 &ndash; Modelling and control</td><td>6-DOF Newton&ndash;Euler model, sensor models and Kalman filter (Sec. 5.1)</td></tr>
+  <tr><td>5 &ndash; Stability and control</td><td>Open-loop eigenvalues, Bode margins, root locus, roll/pitch/yaw step responses, gust rejection (Sec. 8)</td></tr>
+  <tr><td>6 &ndash; Applications</td><td>Search-and-rescue forest, urban infrastructure inspection, dynamic obstacles, slalom (Sec. 6)</td></tr>
+  <tr><td>7 &ndash; Expanding drone abilities (camera, FPV, sensors, speed, flight time)</td><td>Monocular camera with deep perception; speed and battery-capacity endurance study (Sec. 5.3&ndash;5.5, 9)</td></tr>
+</table>
+
+<h2>11. Challenges Faced and How They Were Solved</h2>
+<ul>
+  <li><b>Over-estimated distance at close range.</b> The first depth network over-estimated distance by 31&nbsp;% below
+  1.5&nbsp;m, which caused late reactions and collisions. Adding 4,000 close-range training frames (hard-example
+  mining) and fine-tuning reduced the bias to +9&nbsp;%.</li>
+  <li><b>Flying sideways into unseen space.</b> The classic APF commanded motion outside the camera's view.
+  Restricting candidate motions to a cone inside the field of view, and letting yaw lead into turns, fixed this.</li>
+  <li><b>Lost velocity control during fast yaw.</b> A geometric attitude error mixed large yaw errors into roll and
+  pitch. It was replaced by PX4's tilt-prioritised reduced-attitude control.</li>
+  <li><b>Drifting and duplicate obstacle tracks.</b> These were fixed with velocity mean-reversion, a Euclidean
+  association fallback, duplicate merging and median radius estimation.</li>
+  <li><b>Buildings clipped at their corners.</b> Fitting one circle to a building missed its corners. Splitting wide
+  detections into columns, each with its own learned depth, recovered the real outline.</li>
+</ul>
+
+<h2>12. Limitations and Future Work</h2>
+<ul>
+  <li><b>Blind spots.</b> Obstacles approaching from outside the 90&deg; field of view cannot be seen; one
+  dynamic-scenario collision was of this kind. A wider lens or a rear camera would help.</li>
+  <li><b>Synthetic training data only.</b> The networks were trained on synthetic images. Moving to Gazebo or real
+  footage needs fine-tuning, which the training pipeline already supports.</li>
+  <li><b>No live PX4 test yet.</b> The ROS&nbsp;2/PX4 nodes are written but not yet tested in SITL (Sec. 5.9).</li>
+  <li><b>Observability analysis.</b> As stated in the initial report, a formal observability analysis of Mode&nbsp;2,
+  with mode switching driven by geometry rather than depth confidence, remains future work, as does flight on a real
+  low-cost quadrotor.</li>
+</ul>
+
+<h2>13. How to Run</h2>
+<pre>git clone https://github.com/ac265640/CYCLOPS.git
+cd CYCLOPS
+python3 -m venv .venv &amp;&amp; source .venv/bin/activate
+pip install -r requirements.txt
+python scripts/live_demo.py                 # live demo (trained weights included)
+python scripts/benchmark.py --seeds 10      # reproduce the benchmark
+python scripts/stability_analysis.py        # Module 5 analysis
+python scripts/endurance_analysis.py        # Modules 1 and 7 analysis
+python -m pytest -q                         # 8 unit / integration tests</pre>
+
+<h2>14. Conclusion</h2>
+<p>The project set out to show that a quadrotor can avoid obstacles using only one camera, if the avoidance is planned
+around what that camera can actually measure. CYCLOPS implements this idea end to end:</p>
+<ul>
+  <li>deep networks for detection and depth;</li>
+  <li>the reference paper's Mode&nbsp;1 and Mode&nbsp;2 localisation inside an EKF tracker;</li>
+  <li>a planner that keeps motion inside the camera's field of view and accounts for estimate uncertainty and moving
+  obstacles;</li>
+  <li>a realistic, course-aligned flight stack.</li>
+</ul>
+<p>With 90&nbsp;% mission success against 0&nbsp;% for the baseline, within 7.5 points of perfect perception, and
+11&nbsp;ms latency, the pipeline meets the objectives of the initial report. The code, results, videos and this report
+are publicly available at the links in Section&nbsp;1.</p>
+
+<h2>References</h2>
+<ol class="refs">
+  <li>Z. Zhang, Y. Zhang, and Y. Cao, "Monocular Vision-Based Obstacle Avoidance Trajectory Planning for Unmanned Aerial Vehicles," in <i>Proc. ICUAS</i>, Athens, 2020, pp. 627&ndash;632. <a href="https://doi.org/10.1109/ICUAS48674.2020.9213901">doi:10.1109/ICUAS48674.2020.9213901</a></li>
+  <li>X. Zhou, D. Wang, and P. Kr&auml;henb&uuml;hl, "Objects as Points," 2019. <a href="https://arxiv.org/abs/1904.07850">arXiv:1904.07850</a></li>
+  <li>R. Ranftl, K. Lasinger, D. Hafner, K. Schindler, and V. Koltun, "Towards Robust Monocular Depth Estimation: Mixing Datasets for Zero-shot Cross-dataset Transfer" (MiDaS), 2019. <a href="https://arxiv.org/abs/1907.01341">arXiv:1907.01341</a></li>
+  <li>O. Ronneberger, P. Fischer, and T. Brox, "U-Net: Convolutional Networks for Biomedical Image Segmentation," 2015. <a href="https://arxiv.org/abs/1505.04597">arXiv:1505.04597</a></li>
+  <li>D. Eigen, C. Puhrsch, and R. Fergus, "Depth Map Prediction from a Single Image using a Multi-Scale Deep Network," 2014. <a href="https://arxiv.org/abs/1406.2283">arXiv:1406.2283</a></li>
+  <li>T.-Y. Lin, P. Goyal, R. Girshick, K. He, and P. Doll&aacute;r, "Focal Loss for Dense Object Detection," 2017. <a href="https://arxiv.org/abs/1708.02002">arXiv:1708.02002</a></li>
+  <li>A. G. Howard et al., "MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications," 2017. <a href="https://arxiv.org/abs/1704.04861">arXiv:1704.04861</a></li>
+  <li>O. Khatib, "Real-Time Obstacle Avoidance for Manipulators and Mobile Robots," <i>Int. J. Robotics Research</i>, vol. 5, no. 1, 1986. <a href="https://doi.org/10.1177/027836498600500106">doi:10.1177/027836498600500106</a></li>
+  <li>D. Fox, W. Burgard, and S. Thrun, "The Dynamic Window Approach to Collision Avoidance," <i>IEEE Robotics &amp; Automation Magazine</i>, 1997. <a href="https://doi.org/10.1109/100.580977">doi:10.1109/100.580977</a></li>
+  <li>J. Borenstein and Y. Koren, "The Vector Field Histogram &ndash; Fast Obstacle Avoidance for Mobile Robots," <i>IEEE Trans. Robotics and Automation</i>, 1991. <a href="https://doi.org/10.1109/70.88137">doi:10.1109/70.88137</a></li>
+  <li>H. W. Kuhn, "The Hungarian Method for the Assignment Problem," <i>Naval Research Logistics Quarterly</i>, 1955. <a href="https://doi.org/10.1002/nav.3800020109">doi:10.1002/nav.3800020109</a></li>
+  <li>H. Badino, U. Franke, and D. Pfeiffer, "The Stixel World &ndash; A Compact Medium Level Representation of the 3D-World," DAGM, 2009.</li>
+  <li>PX4 Autopilot documentation: ROS 2 user guide, <a href="https://docs.px4.io/main/en/ros2/user_guide.html">docs.px4.io/main/en/ros2/user_guide.html</a>; controller diagrams, <a href="https://docs.px4.io/main/en/flight_stack/controller_diagrams.html">docs.px4.io/main/en/flight_stack/controller_diagrams.html</a></li>
+  <li>PyTorch, <a href="https://pytorch.org">pytorch.org</a> &middot; ROS 2, <a href="https://docs.ros.org">docs.ros.org</a> &middot; Gazebo, <a href="https://gazebosim.org">gazebosim.org</a></li>
+</ol>
+
+</body>
+</html>
