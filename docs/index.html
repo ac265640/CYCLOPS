@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CYCLOPS - Monocular Obstacle Avoidance for Drones</title>
+<meta name="description" content="CYCLOPS: deep-learning monocular obstacle detection and avoidance for autonomous quadrotors. Course project for BCSE428L Autonomous Drones by Amit Singh Chauhan.">
+<style>
+  :root {
+    --bg: #ffffff; --bg2: #f6f8fa; --fg: #1f2328; --dim: #59636e; --edge: #d1d9e0;
+    --accent: #0969da; --good: #1a7f37; --bad: #cf222e; --warn: #9a6700;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #0d1117; --bg2: #161b22; --fg: #e6edf3; --dim: #9198a1; --edge: #30363d;
+            --accent: #58a6ff; --good: #3fb950; --bad: #f85149; --warn: #d29922; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg); line-height: 1.6;
+         font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+  a { color: var(--accent); }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+  header.hero { padding: 56px 0 28px; border-bottom: 1px solid var(--edge); }
+  .eyebrow { color: var(--dim); font-size: 14px; letter-spacing: .04em; text-transform: uppercase; }
+  h1 { font-size: clamp(36px, 7vw, 64px); margin: 6px 0 4px; letter-spacing: -.02em; }
+  .acro { color: var(--dim); font-size: 17px; }
+  .acro b { color: var(--fg); }
+  .lead { font-size: 19px; max-width: 760px; margin: 18px 0 22px; }
+  .btns { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn { display: inline-block; padding: 9px 16px; border-radius: 8px; border: 1px solid var(--edge);
+         text-decoration: none; color: var(--fg); background: var(--bg2); font-weight: 600; font-size: 15px; }
+  .btn.primary { background: var(--accent); color: #fff; border-color: transparent; }
+  section { padding: 40px 0; border-bottom: 1px solid var(--edge); }
+  h2 { font-size: 28px; margin: 0 0 6px; letter-spacing: -.01em; }
+  h3 { font-size: 18px; margin: 22px 0 6px; }
+  .sub { color: var(--dim); margin: 0 0 20px; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+  .stat { background: var(--bg2); border: 1px solid var(--edge); border-radius: 10px; padding: 14px 16px; }
+  .stat .v { font-size: 30px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .stat .l { color: var(--dim); font-size: 14px; }
+  .good { color: var(--good); } .bad { color: var(--bad); }
+  video, img.fig { width: 100%; border-radius: 10px; border: 1px solid var(--edge); display: block; background: #000; }
+  img.fig { background: #fff; }
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+  figure { margin: 0; }
+  figcaption { color: var(--dim); font-size: 14px; margin-top: 6px; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--edge); vertical-align: top; }
+  th { background: var(--bg2); }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .tbl { overflow-x: auto; border: 1px solid var(--edge); border-radius: 10px; }
+  .tbl table tr:last-child td { border-bottom: none; }
+  tr.hl td { font-weight: 700; }
+  pre { background: var(--bg2); border: 1px solid var(--edge); border-radius: 10px; padding: 14px; overflow-x: auto;
+        font-size: 14px; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  ol.steps { padding-left: 20px; }
+  ol.steps li { margin: 6px 0; }
+  .note { background: var(--bg2); border-left: 4px solid var(--warn); padding: 10px 14px; border-radius: 6px; font-size: 15px; }
+  footer { padding: 30px 0 50px; color: var(--dim); font-size: 14px; }
+  ul.links li { margin: 4px 0; }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">BCSE428L Autonomous Drones &middot; Course project</div>
+    <h1>CYCLOPS</h1>
+    <div class="acro"><b>C</b>amera-only, <b>Y</b>aw-aware <b>C</b>ollision avoidance with <b>L</b>earned <b>O</b>bstacle <b>P</b>erception for <b>S</b>mall UAVs</div>
+    <p class="lead">A quadrotor with one forward-facing camera, and no LiDAR or stereo, spots obstacles with a neural network.
+      It estimates how far away they are with a second network and flies around them in real time.</p>
+    <div class="btns">
+      <a class="btn primary" href="https://github.com/ac265640/CYCLOPS">Source code on GitHub</a>
+      <a class="btn" href="report/CYCLOPS_Project_Report.pdf">Project report (PDF)</a>
+      <a class="btn" href="#demo">Watch the demo</a>
+      <a class="btn" href="#run">Run it yourself</a>
+    </div>
+  </div>
+</header>
+
+<section id="demo">
+  <div class="wrap">
+    <h2>Demo</h2>
+    <p class="sub">Recorded from the live dashboard. The red dashed drone flies the same route with no obstacle avoidance and crashes within seconds.</p>
+    <video src="media/cyclops_forest_sar.mp4" controls muted playsinline poster="figures/ui_forest_sar.png"></video>
+    <div class="grid2" style="margin-top:18px">
+      <figure><video src="media/cyclops_urban.mp4" controls muted playsinline poster="figures/ui_urban_inspection.png"></video>
+        <figcaption>Urban inspection: buildings and poles</figcaption></figure>
+      <figure><video src="media/cyclops_dynamic.mp4" controls muted playsinline poster="figures/ui_dynamic.png"></video>
+        <figcaption>Moving obstacles crossing the flight path</figcaption></figure>
+      <figure><video src="media/cyclops_pillars.mp4" controls muted playsinline poster="figures/ui_pillars.png"></video>
+        <figcaption>Dense pillar slalom</figcaption></figure>
+      <figure><img class="fig" src="figures/ui_goal_reached.png" alt="Dashboard after reaching the goal">
+        <figcaption>Mission complete: goal reached with 0.91 m closest approach</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="results">
+  <div class="wrap">
+    <h2>Results</h2>
+    <p class="sub">160 simulated missions on maps never used during development: 10 maps &times; 4 scenarios &times; 4 methods.</p>
+    <div class="stats">
+      <div class="stat"><div class="v good">90%</div><div class="l">CYCLOPS mission success (every scenario)</div></div>
+      <div class="stat"><div class="v bad">0%</div><div class="l">Straight-line baseline success</div></div>
+      <div class="stat"><div class="v">0.93</div><div class="l">Detector precision (recall 0.76)</div></div>
+      <div class="stat"><div class="v">17%</div><div class="l">Monocular range error (learned depth)</div></div>
+      <div class="stat"><div class="v">11 ms</div><div class="l">Camera frame to flight command</div></div>
+    </div>
+    <h3>Mission success by method</h3>
+    <div class="tbl"><table>
+      <tr><th>Method</th><th class="num">Success</th><th class="num">Collision</th><th class="num">Timeout</th><th class="num">Mean closest approach</th></tr>
+      <tr><td>Baseline: straight line, no avoidance</td><td class="num">0 %</td><td class="num">100 %</td><td class="num">0 %</td><td class="num">&ndash;</td></tr>
+      <tr><td>Classic potential field + our vision</td><td class="num">60 %</td><td class="num">40 %</td><td class="num">0 %</td><td class="num">0.40 m</td></tr>
+      <tr class="hl"><td>CYCLOPS: APF-rollout + our vision</td><td class="num">90 %</td><td class="num">7.5 %</td><td class="num">2.5 %</td><td class="num">0.68 m</td></tr>
+      <tr><td>Perfect obstacle sensor (upper bound)</td><td class="num">97.5 %</td><td class="num">0 %</td><td class="num">2.5 %</td><td class="num">0.71 m</td></tr>
+    </table></div>
+    <div class="grid2" style="margin-top:18px">
+      <figure><img class="fig" src="figures/benchmark.png" alt="Benchmark charts"><figcaption>Success rate, minimum clearance and mission time</figcaption></figure>
+      <figure><img class="fig" src="figures/benchmark_trajectories.png" alt="Trajectories"><figcaption>Paths flown by each method in the four scenarios</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <h2>How it works</h2>
+    <p class="sub">Based on Zhang, Zhang &amp; Cao, <a href="https://doi.org/10.1109/ICUAS48674.2020.9213901">ICUAS 2020</a>: plan the avoidance around what a single camera can actually measure.</p>
+    <figure><img class="fig" src="figures/architecture.png" alt="System architecture"></figure>
+    <ol class="steps">
+      <li><b>See.</b> A small CenterNet-style CNN finds obstacles in each camera frame. A U-Net predicts a depth map from the same single image.</li>
+      <li><b>Locate.</b> Direction comes from the pixel position; distance comes from the depth network. When the depth is unreliable, the tracker switches to direction-only updates (the paper's Mode 2).</li>
+      <li><b>Remember.</b> An extended Kalman filter tracks every obstacle in the world, including its velocity, so moving obstacles are predicted ahead.</li>
+      <li><b>Decide.</b> The planner tries candidate velocities <i>inside the camera's field of view</i>, scores them with a potential field along short predicted paths, and rejects any that would break the stopping distance.</li>
+      <li><b>Fly.</b> A PX4-style cascaded controller turns the chosen velocity into motor speeds for a full 6-DOF quadrotor model.</li>
+    </ol>
+    <div class="grid2">
+      <figure><img class="fig" src="figures/perception_examples.png" alt="Perception examples"><figcaption>Top: detections. Middle: true depth. Bottom: depth predicted from one image.</figcaption></figure>
+      <figure><img class="fig" src="figures/fpv_urban_inspection.png" alt="FPV view with detections"><figcaption>Onboard view: buildings are split into ~1 m columns, each with its own learned distance</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="control">
+  <div class="wrap">
+    <h2>Flight dynamics, stability and endurance</h2>
+    <p class="sub">The course topics, worked out on the same quadrotor model.</p>
+    <div class="grid2">
+      <figure><img class="fig" src="figures/stability_steps.png" alt="Step responses"><figcaption>Roll, pitch, yaw, altitude steps and gust rejection (Module 5)</figcaption></figure>
+      <figure><img class="fig" src="figures/stability_bode.png" alt="Bode plots"><figcaption>Loop margins: about 70&deg; phase margin, 18.5 dB gain margin</figcaption></figure>
+      <figure><img class="fig" src="figures/stability_root_locus.png" alt="Root locus"><figcaption>The roll loop goes unstable only above 8&times; the design gain</figcaption></figure>
+      <figure><img class="fig" src="figures/endurance.png" alt="Endurance"><figcaption>Best endurance at 6.8 m/s, best range at 11.3 m/s (Modules 1 &amp; 7)</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="syllabus">
+  <div class="wrap">
+    <h2>Mapping to the BCSE428L syllabus</h2>
+    <div class="tbl"><table>
+      <tr><th>Module</th><th>Where it appears in CYCLOPS</th></tr>
+      <tr><td>1 &ndash; Introduction (airframe, batteries, motors, ESC, propellers)</td><td>Quad-X airframe, thrust/torque propeller model, motor/ESC lag, LiPo battery with voltage sag</td></tr>
+      <tr><td>2 &ndash; Design fundamentals (flight controller, RC, FPV, telemetry)</td><td>PX4-style cascaded controller, RC stick model, FPV view with OSD, telemetry panel</td></tr>
+      <tr><td>3 &ndash; Drone basics (preflight, flight modes, roll/pitch/yaw, GPS autopilot)</td><td>Preflight checklist, MANUAL/ALTCTL/POSCTL/MISSION/RTL/LAND, low-battery failsafe</td></tr>
+      <tr><td>4 &ndash; Modelling &amp; control</td><td>6-DOF Newton&ndash;Euler model (Python equivalent of a Simulink plant), sensors, Kalman filter</td></tr>
+      <tr><td>5 &ndash; Stability &amp; control</td><td>Open-loop eigenvalues, Bode margins, root locus, roll/pitch/yaw step responses, gust rejection</td></tr>
+      <tr><td>6 &ndash; Applications</td><td>Search &amp; rescue forest, urban infrastructure inspection, dynamic obstacles, pillar slalom</td></tr>
+      <tr><td>7 &ndash; Expanding abilities (camera, FPV, sensors, speed, flight time)</td><td>Monocular camera + deep perception; endurance vs speed and battery-capacity study</td></tr>
+    </table></div>
+  </div>
+</section>
+
+<section id="run">
+  <div class="wrap">
+    <h2>Run it yourself</h2>
+    <p class="sub">Python 3.10+ on macOS, Linux or Windows. Trained network weights are included in the repository.</p>
+<pre><code>git clone https://github.com/ac265640/CYCLOPS.git
+cd CYCLOPS
+python3 -m venv .venv &amp;&amp; source .venv/bin/activate
+pip install -r requirements.txt
+python scripts/live_demo.py</code></pre>
+    <p>The dashboard has clickable controls for scenario, perception mode, pause, restart, new map, manual flight, return home, landing and speed. Click <b>Help</b> for an explanation of every panel.</p>
+    <p class="note">The ROS&nbsp;2 nodes for PX4 SITL + Gazebo are in <a href="https://github.com/ac265640/CYCLOPS/tree/main/ros2_ws/src/cyclops_ros"><code>ros2_ws/</code></a>. They reuse the same perception, tracker and planner code but have not yet been run against a live PX4 simulation.</p>
+  </div>
+</section>
+
+<section id="links">
+  <div class="wrap">
+    <h2>Links</h2>
+    <ul class="links">
+      <li>Source code: <a href="https://github.com/ac265640/CYCLOPS">github.com/ac265640/CYCLOPS</a></li>
+      <li>Project report (PDF): <a href="report/CYCLOPS_Project_Report.pdf">CYCLOPS_Project_Report.pdf</a></li>
+      <li>Syllabus mapping: <a href="https://github.com/ac265640/CYCLOPS/blob/main/docs/curriculum_mapping.md">docs/curriculum_mapping.md</a></li>
+      <li>Raw results: <a href="https://github.com/ac265640/CYCLOPS/tree/main/results">results/</a> (benchmark CSV, perception, stability and endurance JSON)</li>
+      <li>Reference paper: Z. Zhang, Y. Zhang, Y. Cao, ICUAS 2020, <a href="https://doi.org/10.1109/ICUAS48674.2020.9213901">doi:10.1109/ICUAS48674.2020.9213901</a></li>
+      <li>PX4 ROS 2 guide: <a href="https://docs.px4.io/main/en/ros2/user_guide.html">docs.px4.io</a> &middot; Gazebo simulation: <a href="https://docs.px4.io/main/en/sim_gazebo_gz/">docs.px4.io/sim_gazebo_gz</a></li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Amit Singh Chauhan &middot; 23BAI1450 &middot; BCSE428L Autonomous Drones</div>
+</footer>
+</body>
+</html>
